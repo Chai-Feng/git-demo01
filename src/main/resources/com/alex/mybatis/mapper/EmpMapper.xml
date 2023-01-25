@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alex.mybatis.mapper.EmpMapper">
+
+
+
+    <!-- 1分步查询 查询员工全部信息 -->
+    <resultMap id="empDeptStepMap" type="Emp">
+    <id column="emp_id" property="eid"></id>
+    <result column="emp_name" property="ename"></result>
+    <result column="age" property="age"></result>
+    <result column="gender" property="gender"></result>
+    <!--
+    select：设置分步查询，查询某个属性的值的sql的标识（namespace.sqlId）
+    column：将sql以及查询结果中的某个字段设置为分步查询的条件
+    -->
+        <association property="dept" fetchType="eager"
+                     select="com.alex.mybatis.mapper.EmpMapper.getEmpDeptByStep2" column="dept_id" ></association>
+    </resultMap>
+
+    <!--Emp getEmpByStep1(@Param("eid") int eid);-->
+    <select id="getEmpByStep1" resultMap="empDeptStepMap">
+        select * from t_emp where emp_id = #{eid}
+    </select>
+
+    <!--Dept getEmpDeptByStep2(@Param("did") int did);-->
+    <resultMap id="deptMap" type="Dept">
+        <id column="dept_id" property="did"></id>
+        <result column="dept_name" property="dname"></result>
+    </resultMap>
+    <select id="getEmpDeptByStep2" resultMap="deptMap" >
+        select * from t_dept where dept_id = #{did}
+    </select>
+
+
+
+    <!-- 2分步查询 查询部门全部信息-->
+    <resultMap id="empDeptMap" type="Emp">
+        <id column="emp_id" property="eid"></id>
+        <result column="emp_name" property="ename"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+        <association property="dept" javaType="Dept">
+            <id column="dept_id" property="did"></id>
+            <result column="dept_name" property="dname"></result>
+        </association>
+    </resultMap>
+    <select id="getDeptEmpStep2" resultMap="empDeptMap">
+        select * from t_emp where dept_id =#{did}
+    </select>
+
+
+
+</mapper>

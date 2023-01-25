@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alex.mybatis.mapper.DeptMapper">
+
+
+    <resultMap id="DeptMap" type="Dept">
+        <id property="did" column="dept_id"></id>
+        <result property="dname" column="dept_name"></result>
+        <!--
+        ofType：设置collection标签所处理的集合属性中存储数据的类型
+        -->
+        <collection property="emps" ofType="Emp">
+            <id property="eid" column="emp_id"></id>
+            <result property="ename" column="emp_name"></result>
+            <result property="age" column="age"></result>
+            <result property="gender" column="gender"></result>
+<!--            <result property="dept.did" column="dept_id"></result>-->
+<!--            <result property="dept.dname" column="dept_name"></result>-->
+        </collection>
+    </resultMap>
+
+    <select id="getDeptEmpById" resultMap="DeptMap">
+        select dept.*,emp.* from t_dept dept left join t_emp emp on dept.dept_id = emp.dept_id where dept.dept_id =#{did}
+    </select>
+
+
+
+
+<!--    分步查询 查询部门全部信息-->
+    <resultMap id="DeptEmpMap" type="Dept">
+        <id property="did" column="dept_id"></id>
+        <result property="dname" column="dept_name"></result>
+
+        <collection property="emps" fetchType="eager"
+                    select="com.alex.mybatis.mapper.EmpMapper.getDeptEmpStep2" column="dept_id"></collection>
+    </resultMap>
+    <select id="getDeptEmpStep1" resultMap="DeptEmpMap">
+        select * from t_dept where dept_id =#{did}
+    </select>
+
+</mapper>

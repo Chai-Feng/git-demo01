@@ -30,7 +30,10 @@
             2、mapper接口的名字和映射文件的名字必须一致
             -->
     <mappers>
-        <mapper resource="mapper/UserMapper.xml"/>
+
+        <package name="com.alex.mybatis.mapper"/>
+
+<!--        <mapper resource="mapper/EmpMapper.xml"/>-->
     </mappers>
 
 

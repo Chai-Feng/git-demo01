@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alex.mybatis.mapper.UserMapper">
+
+    <insert id="insertUser">
+        insert into t_user values(null,'user1','123456',27,'男','17777@gmail.com')
+    </insert>
+
+
+
+<!--  已经在mybatis 核心配置文件中 配置了typeAliases-->
+    <!--getUserById-->
+    <select id="getUserById" resultType="User">
+        select * from t_user where id='${id1}'
+    </select>
+
+
+<!-- getUserList-->
+    <select id="getUserList" resultType="User">
+        select * from t_user
+    </select>
+
+
+    <!--int getCount();-->
+    <select id="getCount" resultType="_integer">
+        select count(id) from t_user
+    </select>
+
+    <!--Map<String, Object> getUserToMap(@Param("id") int id);-->
+<select id="getUserToMap" resultType="map">
+    select * from t_user where id=#{id}
+</select>
+
+
+    <!--Map<String, Object> getAllUserToMap();-->
+    <select id="getAllUserToMap" resultType="map">
+        select * from t_user
+    </select>
+
+
+    <select id="getAllUserToMap2" resultType="map">
+        select * from t_user
+    </select>
+
+
+    <resultMap id="userMap" type="user">
+        <id property="id" column="id"></id>
+        <result property="userName" column="username"></result>
+        <result property="passWord" column="password"></result>
+        <result property="age" column="age"></result>
+        <result property="gender" column="gender"></result>
+    </resultMap>
+
+    <select id="getMohu" resultMap="userMap"  >
+        <!-- select * from t_user where gender like '%${keyword}%'-->
+        <!--select * from t_user where username like concat('%',#{keyword},'%')-->
+        select * from t_user where email like "%"#{keyword}"%"
+    </select>
+
+<!--    <select id="getMohu" resultType="User"  >-->
+<!--     &lt;!&ndash; select * from t_user where gender like '%${keyword}%'&ndash;&gt;-->
+<!--        &lt;!&ndash;select * from t_user where username like concat('%',#{keyword},'%')&ndash;&gt;-->
+<!--        select * from t_user where email like "%"#{keyword}"%"-->
+<!--    </select>-->
+
+
+
+    <delete id="deleteMore" >
+        delete
+        from t_user
+        where id in (${ids})
+    </delete>
+
+
+    <insert id="insertUserGeneratedKeys" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values (null,#{userName},#{passWord},#{age},#{gender},#{email})
+    </insert>
+
+
+
+<!--    <resultMap id="empDeptMap" type="Emp">-->
+<!--        <id column="emp_id" property="eid"></id>-->
+<!--        <result column="emp_name" property="ename"></result>-->
+<!--        <result column="age" property="age"></result>-->
+<!--        <result column="gender" property="gender"></result>-->
+<!--        <result column="dept_id" property="dept.did"></result>-->
+<!--        <result column="dept_name" property="dept.dname"></result>-->
+
+<!--    </resultMap>-->
+
+    <resultMap id="empDeptMap" type="Emp">
+        <id column="emp_id" property="eid"></id>
+        <result column="emp_name" property="ename"></result>
+        <result column="age" property="age"></result>
+        <result column="gender" property="gender"></result>
+      <association property="dept" javaType="Dept">
+          <id column="did" property="did"></id>
+          <result column="dname" property="dname"></result>
+      </association>
+    </resultMap>
+
+<!--    getEmpAndDeptByEid-->
+
+    <select id="getEmpAndDeptByEid" resultMap="empDeptMap">
+        SELECT emp.* ,dept.* FROM t_emp emp LEFT JOIN t_dept dept ON emp.`dept_id`=dept.`dept_id` WHERE emp.`emp_id`=#{id}
+    </select>
+
+
+</mapper>

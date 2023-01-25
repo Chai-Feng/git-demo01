@@ -1,5 +1,6 @@
 package com.alex.mybatis.mapper;
 
+import com.alex.mybatis.entity.Emp;
 import com.alex.mybatis.entity.User;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
@@ -92,5 +93,9 @@ public interface UserMapper {
      * @return
      */
     int insertUserGeneratedKeys(User user);
+
+
+
+    Emp getEmpAndDeptByEid(@Param("id")int id);
 
 }

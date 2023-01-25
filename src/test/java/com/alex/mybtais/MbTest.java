@@ -1,5 +1,6 @@
 package com.alex.mybtais;
 
+import com.alex.mybatis.entity.Emp;
 import com.alex.mybatis.entity.User;
 import com.alex.mybatis.mapper.UserMapper;
 import org.apache.ibatis.io.Resources;
@@ -170,5 +171,15 @@ public class MbTest {
         //注意，当插入成功后，自增主键的值会存回User 的id属性中
         System.out.println("添加 "+i+ " 行记录 \n"+"新增记录 id= "+ user.getId());
     }
+
+
+    @Test
+    public void testResultMap1(){
+        UserMapper mapper = getMapper();
+        Emp empAndDeptByEid = mapper.getEmpAndDeptByEid(1);
+        System.out.println(empAndDeptByEid);
+
+    }
+
 
 }
