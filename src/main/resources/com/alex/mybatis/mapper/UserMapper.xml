@@ -108,4 +108,20 @@
     </select>
 
 
+<!--   int insertBatch(List<User> users);-->
+    <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id">
+        insert into t_user values
+        <foreach collection="users" item="user" separator=",">
+            (null,#{user.userName},#{user.passWord},#{user.age},#{user.gender},#{user.email})
+        </foreach>
+    </insert>
+
+
+
+<!--  分页查询-->
+<!--    getUserLimitPage-->
+    <select id="getUserLimitPage" resultMap="userMap">
+        select * from t_user
+    </select>
+
 </mapper>

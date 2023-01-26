@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -98,4 +99,16 @@ public interface UserMapper {
 
     Emp getEmpAndDeptByEid(@Param("id")int id);
 
+
+    /**
+     * 利用动态sql 批量插入数据
+     */
+
+    int insertBatch(@Param("users") List<User> users);
+
+
+    /**
+     * 分页查询
+     */
+   List<User> getUserLimitPage();
 }

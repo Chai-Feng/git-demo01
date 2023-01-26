@@ -18,6 +18,18 @@ public class User {
     private String gender;
     private String email;
 
+    public User() {
+    }
+    public User(String userName, String passWord, Integer age, String gender, String email) {
+        this.userName = userName;
+        this.passWord = passWord;
+        this.age = age;
+        this.gender = gender;
+        this.email = email;
+    }
+
+
+
     @Override
     public String toString() {
         return "User{" +

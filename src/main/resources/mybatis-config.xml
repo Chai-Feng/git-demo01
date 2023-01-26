@@ -7,6 +7,13 @@
     <typeAliases>
         <package name="com.alex.mybatis.entity"/>
     </typeAliases>
+    
+    
+    <plugins>
+    <!--配置分页插件，注意plugins标签在配置文件的位置要求 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+    </plugins>
+    
     <!--设置连接数据库的环境-->
     <!-- 可以有多个 environment-->
     <environments default="development">
